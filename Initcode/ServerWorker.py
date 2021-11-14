@@ -143,12 +143,9 @@ class ServerWorker:
         """Send RTP packets over UDP."""
         while True:
             self.clientInfo['event'].wait(0.05) 
-            
-                
             # Stop sending if request is PAUSE or TEARDOWN
             if self.clientInfo['event'].isSet(): 
                 break
-
             if self.request == self.NEXT:
                 data = self.clientInfo['videoStream'].skipFrame(self.totalFrame, self.skipNo*75)
                 self.skipNo = 0
@@ -159,7 +156,6 @@ class ServerWorker:
                 self.request = ''
             else:
                 data = self.clientInfo['videoStream'].nextFrame()
-
             if data: 
                 frameNumber = self.clientInfo['videoStream'].frameNbr()
                 try:
